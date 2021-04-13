@@ -55,7 +55,7 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,vue}": [
+    "**/*.{ts,tsx}": [
       "npm run eslint"
     ]
   },
