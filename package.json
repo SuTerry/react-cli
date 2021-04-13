@@ -53,16 +53,6 @@
   "pre-commit": [
     "lint"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.{ts,tsx}": [
-      "npm run eslint"
-    ]
-  },
   "browserslist": [
     "last 1 version",
     "> 1%",
