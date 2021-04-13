@@ -10,7 +10,9 @@ import './index.less'
 
 const rootDom = document.getElementById('root')
 
-ReactDom.render(<h1>1111</h1>, rootDom)
+const env = process.env.WEB_ENV
+
+ReactDom.render(<h1>{env}</h1>, rootDom)
 
 
 const p = new Promise(resolve => {

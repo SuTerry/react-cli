@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=local  webpack serve --config bin/webpack.dev.js",
-    "build:dev": "cross-env NODE_ENV=production  webpack --config bin/webpack.pro.js",
+    "build:dev": "cross-env NODE_ENV=dev  webpack --config bin/webpack.pro.js",
+    "build:sit": "cross-env NODE_ENV=sit  webpack --config bin/webpack.pro.js",
+    "build:pre": "cross-env NODE_ENV=pre  webpack --config bin/webpack.pro.js",
+    "build:pro": "cross-env NODE_ENV=pro  webpack --config bin/webpack.pro.js",
     "test": "eslint src --ext .js,ts,tsx",
     "prepare": "yarn test && husky install"
   },
@@ -25,6 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
     "babel-loader": "^8.2.2",
+    "copy-webpack-plugin": "^8.1.1",
     "core-js": "^3.10.1",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.1",
