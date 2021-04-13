@@ -7,7 +7,8 @@
     "start": "cross-env NODE_ENV=local  webpack serve --config bin/webpack.dev.js",
     "build:dev": "cross-env NODE_ENV=production  webpack --config bin/webpack.pro.js",
     "eslint": "eslint src --ext .js,ts,tsx",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "precommit": "npm run lint"
   },
   "author": "",
   "license": "ISC",
@@ -49,6 +50,9 @@
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint-staged"
