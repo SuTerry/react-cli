@@ -10,17 +10,17 @@ import './index.less'
 
 const rootDom = document.getElementById('root')
 
-ReactDom.render(<h1>111</h1>, rootDom)
+ReactDom.render(<h1>1111</h1>, rootDom)
 
 
 const p = new Promise(resolve => {
-  resolve(1111)
+  // resolve(1111)
 })
 
-p.then(res => console.log(res))
+// p.then(res => console.log(res))
 
 import('./aa').then(aa => {
-  console.log(aa.default())
+  // console.log(aa.default())
 })
 
 

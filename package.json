@@ -6,8 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=local  webpack serve --config bin/webpack.dev.js",
     "build:dev": "cross-env NODE_ENV=production  webpack --config bin/webpack.pro.js",
-    "eslint": "eslint src --ext .js,ts,tsx",
-    "prepare": "yarn eslint && husky install"
+    "test": "eslint src --ext .js,ts,tsx",
+    "prepare": "yarn test && husky install"
   },
   "author": "",
   "license": "ISC",
