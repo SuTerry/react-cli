@@ -16,6 +16,12 @@
   },
   "author": "",
   "license": "ISC",
+  "sideEffects": [
+    "*.css",
+    "*.less",
+    "core-js/es/map",
+    "core-js/es/set"
+  ],
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
