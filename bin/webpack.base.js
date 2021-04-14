@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -10,7 +11,23 @@ const isLocal = process.env.NODE_ENV === 'local'
 const commonCssLoader = [
   isLocal ? 'style-loader' : MiniCssExtractPlugin.loader,
   'css-loader',
-  'postcss-loader'
+  {
+    loader: 'postcss-loader',
+    options: {
+      postcssOptions: {
+        plugins: [
+          [
+            // 需要在package.json中定义browserslist  
+            "postcss-preset-env",
+            {
+              // 其他选项
+              ident: 'postcss',
+            },
+          ],
+        ]
+      }
+    }
+  }
 ]
 
 const rules = [
@@ -66,7 +83,7 @@ module.exports = {
   cache: {
     type: isLocal ? 'memory' : 'filesystem',
   },
-  entry: './src/index.tsx',
+  entry: './src/main.tsx',
   output: {
     clean: true,
     filename: isLocal ? 'js/[name].js' : 'js/[name].[contenthash:8].js',
@@ -91,8 +108,20 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../src/index.html'),
+      // template: path.resolve(__dirname, '../src/index.html'),
       favicon: path.resolve(__dirname, '../static/favicon.png'),
+      templateContent: ({htmlWebpackPlugin}) => {
+        const templatePath = path.resolve(__dirname, '../src/index.html')
+        const template = fs.readFileSync(templatePath, 'utf8')
+        // 在head的底部注入打包后需要加载的文件引用（css,js）
+        let newTemplate = template.replace('</head>', `${htmlWebpackPlugin.tags.headTags}</head>`)
+        // const startIndex = newTemplate.indexOf('<!-- vite start -->')
+        // const endIndex = newTemplate.indexOf('<!-- vite ebd -->') + '<!-- vite ebd -->'.length
+        // newTemplate.slice(startIndex, endIndex)
+        const regexp = /<!-- vite start -->[\s\S]*?<!-- vite end -->/
+        newTemplate = newTemplate.replace(regexp, '')
+        return newTemplate
+      }
     }),
     new CopyPlugin({
       patterns: [{

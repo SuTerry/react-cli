@@ -1,5 +1,5 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 
-export default (): JSX.Element => {
+export default (): ReactElement => {
   return (<h1>1111</h1>)
 }
