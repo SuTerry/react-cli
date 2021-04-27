@@ -3,7 +3,8 @@ const fs = require('fs')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CopyPlugin = require("copy-webpack-plugin")
+const CopyPlugin = require('copy-webpack-plugin')
+const WebpackBar = require('webpackbar')
 
 
 const isLocal = process.env.NODE_ENV === 'local'
@@ -35,8 +36,13 @@ const rules = [
     test: /\.(tsx?|jsx?)$/,
     use: [
       // 启用进程大概需要600ms，进程通信也有开销
-      'thread-loader',
-      'babel-loader'
+      // 'thread-loader',
+      {
+        loader: "babel-loader",
+        options: {
+          cacheDirectory: true
+        }
+      }
     ],
     exclude: '/node_modules/'
   },
@@ -108,16 +114,16 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      // template: path.resolve(__dirname, '../src/index.html'),
+      template: path.resolve(__dirname, '../src/index.html'),
       favicon: path.resolve(__dirname, '../static/favicon.png'),
-      templateContent: ({htmlWebpackPlugin}) => {
+      templateContent: ({ htmlWebpackPlugin }) => {
         const templatePath = path.resolve(__dirname, '../src/index.html')
         const template = fs.readFileSync(templatePath, 'utf8')
         // 在head的底部注入打包后需要加载的文件引用（css,js）
         let newTemplate = template.replace('</head>', `${htmlWebpackPlugin.tags.headTags}</head>`)
-        // const startIndex = newTemplate.indexOf('<!-- vite start -->')
-        // const endIndex = newTemplate.indexOf('<!-- vite ebd -->') + '<!-- vite ebd -->'.length
-        // newTemplate.slice(startIndex, endIndex)
+        // 在body的底部注入模板中的body部分
+        newTemplate = template.replace('</body>', `${htmlWebpackPlugin.tags.bodyTags}</body>`)
+        // vite中需要的内容，在webpack中清空
         const regexp = /<!-- vite start -->[\s\S]*?<!-- vite end -->/
         newTemplate = newTemplate.replace(regexp, '')
         return newTemplate
@@ -131,7 +137,11 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.WEB_ENV': JSON.stringify(process.env.NODE_ENV),
-    })
+    }),
+    new WebpackBar({
+      name: isLocal ? "RUNNING" : "BUILDING",
+      color: "#52c41a"
+    }),
   ],
   optimization: {
     splitChunks: {
