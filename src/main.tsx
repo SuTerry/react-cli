@@ -11,8 +11,6 @@ import './index.less'
 
 const rootDom = document.getElementById('root')
 
-const env = process.env.WEB_ENV
-
 ReactDom.render(
   <App />
   , rootDom)

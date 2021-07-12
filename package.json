@@ -11,8 +11,8 @@
     "build:pre": "cross-env NODE_ENV=pre  webpack --config bin/webpack.pro.js",
     "build:pro": "cross-env NODE_ENV=pro  webpack --config bin/webpack.pro.js",
     "serve": "vite preview",
-    "test": "eslint src --ext .js,ts,tsx",
-    "postinstall": "husky install",
+    "test": "eslint src --ext .js,.ts,.tsx",
+    "postinstall": "chmod ug+x .husky/* && chmod ug+x .git/hooks/* && husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
   },

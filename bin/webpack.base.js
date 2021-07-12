@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const WebpackBar = require('webpackbar')
+const alias = require('./config/alias')
+const extensions = require('./config/extensions')
 
 
 const isLocal = process.env.NODE_ENV === 'local'
@@ -98,11 +100,8 @@ module.exports = {
     publicPath: '/'
   },
   resolve: {
-    alias: {
-      $: path.resolve(__dirname, '../src'),
-      $static: path.resolve(__dirname, "../static"),
-    },
-    extensions: ['.ts', '.tsx', '.js'],
+    alias,
+    extensions,
     modules: [path.resolve(__dirname, '../node_modules'), 'node_modules'],
   },
   module: {
@@ -177,4 +176,15 @@ module.exports = {
     },
     chunkIds: 'named',
   },
+  performance: {
+    hints:'warning',
+    //入口起点的最大体积
+    maxEntrypointSize: 1024*300, // 300K
+    //生成文件的最大体积
+    // maxAssetSize: 1024*300, // 300K
+    //只给出 js 文件的性能提示
+    // assetFilter: function(assetFilename) {
+    //   return assetFilename.endsWith('.js')
+    // }
+  }
 }
