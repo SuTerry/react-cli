@@ -10,6 +10,7 @@ module.exports = merge(base, {
     open: true,
     compress: true, // 启用gzip压缩
     hot: true, // 热更新
+    historyApiFallback: true, // 请求资源都访问index.html
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
